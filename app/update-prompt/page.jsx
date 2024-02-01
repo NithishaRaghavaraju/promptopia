@@ -1,12 +1,12 @@
 "use client"
 
 import {useEffect, useState} from "react";
-import {useRouter,useSearchParams} from "next/navigation";
+import {useRouter,usePathname} from "next/navigation";
 import { Suspense } from 'react'
 import Form from "@components/Form";
 
 const EditPrompt = () => {
-    const searchParams = useSearchParams()
+    const searchParams = usePathname()
     const promptId = searchParams.get('id')
 
     const router = useRouter();
@@ -59,12 +59,8 @@ const EditPrompt = () => {
      setSubmitting(false);
     }
 }  
-function SearchBarFallback() {
-    return "Loading Initial Data"
-  }
   
   return (
-    <Suspense  fallback={SearchBarFallback}>
     <Form 
     type="Edit"
     post={post}
@@ -72,7 +68,6 @@ function SearchBarFallback() {
     submitting={submitting}
     handleSubmit={updatePrompt}
     />
-    </Suspense>
   )
 }
 
