@@ -59,9 +59,12 @@ const EditPrompt = () => {
      setSubmitting(false);
     }
 }  
+function SearchBarFallback() {
+    return "Loading Initial Data"
+  }
   
   return (
-    <Suspense>
+    <Suspense  fallback={SearchBarFallback}>
     <Form 
     type="Edit"
     post={post}
