@@ -1,15 +1,16 @@
 "use client"
 
 import {useEffect, useState} from "react";
-import {useRouter,usePathname} from "next/navigation";
+import {useRouter,useSearchParams} from "next/navigation";
 import { Suspense } from 'react'
 import Form from "@components/Form";
 
 const EditPrompt = () => {
-    const searchParams = usePathname()
+    const searchParams = useSearchParams()
     const promptId = searchParams.get('id')
 
     const router = useRouter();
+    const [isLoading, setIsLoading] = useState(true); // Add loading state
     const [submitting,setSubmitting] = useState(false);
     const [post,setPost] = useState({
         prompt : '',
@@ -27,6 +28,7 @@ const EditPrompt = () => {
             tag:data.tag
         })
     }
+    setIsLoading(false)
     if(promptId) getPromptDetails()
 
 
@@ -59,15 +61,24 @@ const EditPrompt = () => {
      setSubmitting(false);
     }
 }  
+function SearchBarFallback() {
+    return "Loading Initial Data"
+  }
   
   return (
-    <Form 
-    type="Edit"
-    post={post}
-    setPost={setPost}
-    submitting={submitting}
-    handleSubmit={updatePrompt}
-    />
+    <div>
+      {isLoading ? (
+        "Loading Initial Data..."
+      ) : (
+        <Form
+          type="Edit"
+          post={post}
+          setPost={setPost}
+          submitting={submitting}
+          handleSubmit={updatePrompt}
+        />
+      )}
+    </div>
   )
 }
 
